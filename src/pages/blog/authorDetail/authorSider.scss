@@ -1,0 +1,48 @@
+.authorSider {
+    width: 240px;
+    margin-left: 20px;
+    background-color: #f0f2f5;
+    margin-top: 20px;
+
+    .ant-layout-sider {
+        // width: 100%;
+        background-color: #f0f2f5;
+
+        .proud-info-box {
+            width: 240px;
+            background-color: white;
+
+            .box-title {
+                padding: 20px;
+                font-weight: 600;
+                font-size: 1rem;
+                line-height: 1.2;
+                border-bottom: 1px solid rgba(230, 230, 231, .5);
+            }
+
+            .box-body {
+                padding: 15px 15px 5px 15px;
+
+                .proud-item {
+                    margin-bottom: 10px;
+
+                    span {
+                        margin-left: 5px;
+                        font-size: 1rem;
+                        color: #000;
+                    }
+                }
+            }
+
+        }
+
+        .follow-box {
+            margin-top: 20px;
+            background-color: white;
+            display: flex;
+            width: 240px;
+            justify-content: space-around;
+            padding: 20px;
+        }
+    }
+}

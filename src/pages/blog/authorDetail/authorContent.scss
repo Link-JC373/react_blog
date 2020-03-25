@@ -1,0 +1,103 @@
+.mainLayout {
+    // height: auto;
+}
+
+.ant-layout {
+    min-height: 89.5vh;
+}
+
+.authorContent {
+    margin-top: 20px;
+    width: 700px;
+    // height: auto;
+
+    .ant-layout-content {
+        background-color: #f0f2f5;
+    }
+
+    .user-info-block {
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        background-color: white;
+
+        .user-avator {
+            margin-right: 20px;
+        }
+
+        .info-box {
+            width: 390px;
+            // margin: auto 0;
+            // display: flex;
+            // align-items: center;
+            // background-color: black;
+
+            .top {
+                align-items: center;
+                margin-bottom: 20px;
+
+                h1 {
+                    font-size: 1.8rem;
+                    line-height: 1.2;
+                    font-weight: 600;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            .bottom {
+                font-size: 1rem;
+                line-height: 1.5;
+                color: #72777b;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .action-box {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+
+            .follow-btn {
+                cursor: pointer;
+                width: 7rem;
+                color: #6cbd45;
+                margin: 3rem 0 0;
+                padding: 0;
+                height: 2.5rem;
+                font-size: 1rem;
+                font-weight: 500;
+                line-height: 1.2;
+                border: 1px solid;
+                background-color: #fff;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .list-block {
+        margin-top: 20px;
+        background-color: white;
+
+        .ant-tabs-nav-wrap {
+            padding-left: 30px;
+
+        }
+
+        .ant-list-item {
+            padding: 0;
+        }
+
+        .ant-list-item:hover {
+            transition: all 0.5s linear 0s;
+            background-color: whitesmoke;
+            cursor: pointer
+        }
+
+        .ant-list-header {
+            padding-left: 30px;
+        }
+
+    }
+}

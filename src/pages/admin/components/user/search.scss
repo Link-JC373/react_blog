@@ -1,0 +1,16 @@
+.user_search {
+    margin-bottom: 20px;
+    display: flex;
+    // justify-content: space-around;
+}
+
+.user_search :nth-child(3) {
+    margin-left: 20px;
+    // justify-self: end;
+
+    .ant-btn {
+        margin-left: 20px;
+    }
+
+    // align-self: flex-end;
+}

@@ -1,0 +1,22 @@
+.article_search {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .ant-form-item {
+        margin-right: 40px;
+    }
+
+    // justify-content: space-around;
+}
+
+.article_search :nth-child(6) {
+    margin-left: 50px;
+    justify-self: end;
+
+    .ant-btn {
+        margin-left: 20px;
+    }
+
+    // align-self: flex-end;
+}

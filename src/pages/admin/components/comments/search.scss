@@ -1,0 +1,26 @@
+.comment_search {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .ant-form-item {
+        margin-right: 20px;
+    }
+
+    // justify-content: space-around;
+}
+
+.comment_search :nth-child(5) {
+    // margin-left: 20px;
+    // justify-self: end;
+    // margin-right: 0px;
+    // align-self: flex-end;
+    float: right;
+
+    .ant-btn {
+
+        margin-right: 20px;
+    }
+
+    // align-self: flex-end;
+}

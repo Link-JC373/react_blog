@@ -1,0 +1,42 @@
+.main {
+    // height: auto;
+
+    .ant-layout-sider {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .logo-self {
+        font-size: 40px;
+        text-shadow: 5px 5px 5px black, 0px 0px 2px black;
+        color: white;
+    }
+
+    .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .trigger:hover {
+        color: #1890ff;
+    }
+
+    .logo {
+        height: 32px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px;
+    }
+
+    .site-layout {
+        .site-layout-background {
+            background: #fff;
+            // padding: 24;
+            // margin: 24px 16px;
+            // //   padding: 24,
+            // minHeight: 280;
+        }
+    }
+}
