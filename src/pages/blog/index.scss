@@ -18,8 +18,50 @@
     margin: 0 auto;
     width: 960px;
     height: 100%;
+    position: relative;
 }
 
-.ant-layout {
-    // height: 100%;
+.article-action {
+    height: 0px;
+    width: 0;
+    position: absolute;
+    left: -80px;
+    // transform: 10px;
+    // margin-left: -10px;
+    // margin-left: 10%;
+}
+
+.site-badge-count-4 .ant-badge-count {
+    background-color: #fff;
+    color: #999;
+    box-shadow: 0 0 0 1px #d9d9d9 inset;
+}
+
+
+
+.ant-popover-inner-content {
+    // padding: 0px;
+    // overflow: hidden;
+    // overflow-y: scroll;
+
+    .fav-item {
+        width: 100%;
+        height: 40px;
+        padding: 8px;
+        vertical-align: middle;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .fav-item:hover {
+        background-color: whitesmoke;
+        transition: ease 0.3s;
+
+    }
 }

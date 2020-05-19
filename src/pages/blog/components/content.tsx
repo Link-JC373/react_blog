@@ -18,13 +18,13 @@ const BlogContent = (props: IBlogContent) => {
 
         <div className="content">
             <Content>
-                <InfiniteList
+                {/* <InfiniteList
                     hasMore={props.hasMore}
                     data={props.data}
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
                     element="mainArticleList"
-                />
+                /> */}
             </Content>
 
         </div>

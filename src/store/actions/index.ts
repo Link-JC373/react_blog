@@ -1,4 +1,5 @@
 import { DECREMENT, DECREMENT_TYPE, INCREMENT, INCREMENT_TYPE, LOGIN_TYPE, LOGOUT, LOGOUT_TYPE, LOGIN } from '../actionTypes';
+import { ILoginInfo } from '../../pages/blog/types';
 
 export interface IINCREMENTAction {
   type: INCREMENT_TYPE;
@@ -9,6 +10,7 @@ export interface IDECREMENTAction {
 }
 
 export interface ILOGINAction{
+  userInfo: ILoginInfo;
   type: LOGIN_TYPE;
 }
 
@@ -31,7 +33,8 @@ export const decrement = (): IDECREMENTAction => ({
 })
 
 //登录方法
-export const login = (): ILOGINAction => ({
+export const login = (userInfo: ILoginInfo): ILOGINAction => ({
+  userInfo,
   type: LOGIN
 })
 

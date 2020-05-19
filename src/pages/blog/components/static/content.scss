@@ -16,62 +16,11 @@ html {
     margin-right: 20px;
     margin-top: 20px;
     width: 700px;
-    height: auto;
-
-    .link_to {
-        padding: 16px 24px;
-        width: 100%;
-        height: 100%;
-    }
-
-    .ant-list-header {
-        padding-left: 20px;
-    }
+    min-height: 80vh;
+    background-color: white;
 
     .ant-list-item {
-        padding: 0;
-    }
-
-    .ant-list-item:hover {
-        transition: all 0.5s linear 0s;
-        background-color: whitesmoke;
-        cursor: pointer
-    }
-
-    .meta_row {
-        color: #b2bac2;
-
-        .post {
-            font-size: 500;
-            color: #b71ed7;
-        }
-
-        .user_name:hover {
-            color: blue;
-        }
-
-        div {
-            display: inline-block;
-        }
-
-
-    }
-
-    .title {
-        color: #2e3135;
-        font-weight: 600;
-        line-height: 1.2;
-        font-size: 17px;
-        margin: 6px 0 12px 0;
-    }
-
-    .btns {
-        margin-top: 20px;
-
-        .ant-btn {
-            height: 28px;
-            padding-top: 0;
-        }
+        // padding: 0px !important;
     }
 }
 
@@ -81,70 +30,77 @@ html {
 
 
 .ant-popover-inner-content {
-    height: 160px;
+    height: 170px;
     width: 260px;
-    padding: 16px;
+    padding: 0px !important;
+    // padding: 16px;
     background-color: white;
 
-    .author_card {
-        display: flex;
-        justify-content: space-between;
+    .author-box {
+        padding: 16px;
 
-        .author_info {
-            width: 150px;
+        .author_card {
+            display: flex;
+            justify-content: space-between;
 
-            .user_name {
-                display: inline-block;
-                // width: 150px;
-                height: 20px;
+            .author_info {
+                width: 150px;
+
+                .user_name {
+                    display: inline-block;
+                    // width: 150px;
+                    height: 20px;
+                    font-size: 13px;
+                    line-height: 1.2;
+                    font-weight: 500;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    color: #333;
+                }
+
+                .user_disc {
+                    margin-top: 18px;
+                    font-size: 12px;
+                    line-height: 1.2;
+                    color: #8f969c;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+
+            }
+
+        }
+
+        .meta-row {
+            width: 233px;
+            display: flex;
+            margin-top: 18px;
+
+            .count {
+                width: 30px;
+                font-size: 15px;
+                font-weight: 600;
+                color: #17181a;
+            }
+
+            .title {
+                width: 40px;
+                margin-top: 5px;
                 font-size: 13px;
-                line-height: 1.2;
-                font-weight: 500;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                color: #333;
-            }
-
-            .user_disc {
-                margin-top: 18px;
-                font-size: 12px;
-                line-height: 1.2;
                 color: #8f969c;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+            }
+
+            .follow_btn {
+                margin-top: 5px;
+                margin-left: 60px;
             }
 
 
         }
-
     }
 
-    .meta-row {
-        width: 233px;
-        display: flex;
-        margin-top: 18px;
 
-        .count {
-            width: 30px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #17181a;
-        }
-
-        .title {
-            width: 40px;
-            margin-top: 5px;
-            font-size: 13px;
-            color: #8f969c;
-        }
-
-        .follow_btn {
-            margin-top: 5px;
-            margin-left: 60px;
-        }
-
-
-    }
 
 }

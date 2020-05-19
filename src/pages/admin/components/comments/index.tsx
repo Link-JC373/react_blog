@@ -1,9 +1,11 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Modal, Button } from 'antd'
+import React, { useState, useEffect, useRef } from 'react';
+import { Modal, Table } from 'antd'
 import TableEnterLeave from '../../../../components/TableEnterLeave.js';
 // import ArticleContent from './articleContent';
 import Search from './search';
+import Request from '../../../../utils/request';
+import { TablePaginationConfig, ColumnProps } from 'antd/lib/table';
 
 interface IDataSource {
     id: string,
@@ -16,97 +18,40 @@ const CommentController = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [visible, setVisible] = useState<boolean>(false);
     const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
+    const [pagination, setPagination] = useState<TablePaginationConfig>();
+    let req = new Request()
+    let queryData = useRef<Object>();
+
+    const formateData = (data: any) => {
+        return {
+            id: data.comment_id,
+            userId: data.user.id,
+            userName: data.user.username,
+            title: data.blog_article.title,
+        }
+    }
+
+
+    const queryComment = async (current: number) => {
+        setLoading(true);
+        await req.post('admin/queryComment', { pageNum: current, ...queryData.current }).then(res => {
+            const commentData = res?.data.rows.map((item: any, index: number) => formateData(item))
+            console.log(commentData);
+            setDataSource([...commentData]);
+            setLoading(false);
+            setPagination({ ...pagination, total: res?.data.count });
+        })
+    }
+
+
     useEffect(() => {
-        let data = [
-            {
-                id: '1',
-                articleName: 'John Brown',
-                userId: '1',
-                userName: 'New York No. 1 Lake Park',
-            },
-            {
-                id: '2',
-                articleName: 'Jim Green',
-                userId: '1',
-                userName: 'London No. 1 Lake Park',
-
-            },
-            {
-                id: '3',
-                userId: '1',
-                articleName: 'Joe Black',
-                userName: 'Sidney No. 1 Lake Park',
-            },
-            {
-                id: '4',
-                userId: '1',
-                articleName: 'John Brown',
-                userName: 'New York No. 1 Lake Park',
-            },
-            {
-                id: '5',
-                userId: '1',
-                articleName: 'Jim Green',
-                userName: 'London No. 1 Lake Park',
-
-            },
-            {
-                id: '6',
-                userId: '1',
-                articleName: 'Joe Black',
-                userName: 'Sidney No. 1 Lake Park',
-            },
-            {
-                id: '7',
-                userId: '1',
-                articleName: 'John Brown',
-                userName: 'New York No. 1 Lake Park',
-            },
-            {
-                id: '8',
-                userId: '1',
-                articleName: 'Jim Green',
-                userName: 'London No. 1 Lake Park',
-            },
-            {
-                id: '9',
-                userId: '1',
-                articleName: 'Joe Black',
-                userName: 'Sidney No. 1 Lake Park',
-            },
-            {
-                id: '10',
-                userId: '1',
-                articleName: 'John Brown',
-                userName: 'New York No. 1 Lake Park',
-            },
-            {
-                id: '11',
-                userId: '1',
-                articleName: 'Jim Green',
-                userName: 'London No. 1 Lake Park',
-
-            },
-            {
-                id: '12',
-                userId: '1',
-                articleName: 'Joe Black',
-                userName: 'Sidney No. 1 Lake Park',
-            },
-        ]
-        setDataSource(
-            data
-        )
-        setLoading(false)
+        queryComment(1)
     }, [])
     const deleteUser = (id: string) => {
         let newData = dataSource.filter(item => item.id !== id)
         setDataSource([...newData])
     }
-    // const deleteUser = useCallback(() => (id: string) => {
-    //     let newData = dataSource.filter(item => item.id !== id)
-    //     setDataSource([...newData])
-    // }, [])
+
 
     const openComment = (id: string, e: any) => {
         e.preventDefault();
@@ -114,12 +59,12 @@ const CommentController = () => {
         setVisible(true)
     }
 
-    const columns = [
+    const columns: ColumnProps<IDataSource>[] = [
         {
             title: '评论id',
-            dataIndex: 'id',
+            dataIndex: 'commentId',
             align: 'center',
-            key: 'id',
+            key: 'commentId',
 
             render: (text: string, record: IDataSource) => (
                 <a
@@ -129,16 +74,15 @@ const CommentController = () => {
                 </a>
             ),
         },
-        { title: '文章名', dataIndex: 'articleName', key: 'type', align: 'center' },
+        { title: '文章名', dataIndex: 'title', key: 'type', align: 'center' },
         { title: '用户ID', dataIndex: 'userId', key: 'userId', align: 'center' },
         { title: '用户名', dataIndex: 'userName', key: 'userName', align: 'center' },
+        { title: '操作', dataIndex: 'options', key: 'options', render: (text, record) => <a key={record.id} onClick={() => deleteUser(record.id)}> 删除 </a> }
 
     ]
 
 
-    const tableAction = {
-        delete: 'delete'
-    }
+
     const handleCancel = () => {
         console.log('Clicked cancel button');
         setVisible(false);
@@ -150,6 +94,17 @@ const CommentController = () => {
             setVisible(false);
         }, 2000);
     };
+
+    const changeQueryData = (value: any) => {
+        queryData.current = value
+        queryComment(1)
+    }
+    const handlePageChange = (page: number) => {
+        console.log(page);
+        setPagination({ ...pagination, current: page });
+        queryComment(page);
+    }
+
 
     return (
         <div>
@@ -165,13 +120,21 @@ const CommentController = () => {
                 <p>Test</p>
             </Modal>
             {/* 下面的原本想做表单的动画效果，失败了 */}
-            <TableEnterLeave
+            {/* <TableEnterLeave
                 bordered={true}
                 dataSource={dataSource}
                 loading={loading}
                 columns={columns}
                 tableAction={tableAction}
                 deleteUser={deleteUser}
+            /> */}
+            <Table
+                dataSource={dataSource}
+                loading={loading}
+                columns={columns}
+                rowKey='id'
+                pagination={{ ...pagination, onChange: (page: number) => handlePageChange(page) }}
+
             />
         </div>
     );

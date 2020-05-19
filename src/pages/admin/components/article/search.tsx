@@ -3,7 +3,7 @@ import { Form, Input, Button, Select } from 'antd';
 import './search.scss'
 const { Option } = Select;
 
-const Search = () => {
+const Search = (props: any) => {
     const [form] = Form.useForm();
     const [, forceupdate] = useState();
 
@@ -11,6 +11,7 @@ const Search = () => {
 
     const onFinish = (values: any) => {
         console.log('Finish:', values);
+        props.handleSearch(values)
 
     }
 
@@ -25,13 +26,13 @@ const Search = () => {
 
                 <Form.Item
                     label="文章ID"
-                    name="searchId"
+                    name="articleId"
                 // rules
                 >
                     <Input placeholder='输入文章ID' />
                 </Form.Item>
                 <Form.Item
-                    name="searchName"
+                    name="searchContent"
                     label="文章名"
                 // rules
                 >
@@ -39,20 +40,20 @@ const Search = () => {
                 </Form.Item>
                 <Form.Item
                     label="作者名"
-                    name="searchUserName"
+                    name="userName"
                 // rules
                 >
                     <Input placeholder='输入作者名' />
                 </Form.Item>
                 <Form.Item
                     label="作者ID"
-                    name="searchUserId"
+                    name="userId"
                 // rules
                 >
                     <Input placeholder='输入作者ID' />
                 </Form.Item>
                 <Form.Item
-                    name="searchType"
+                    name="articleTypeId"
                     label="文章类型"
                 // rules
                 >

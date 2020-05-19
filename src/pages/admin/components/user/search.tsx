@@ -3,14 +3,13 @@ import { Form, Input, Button, Select } from 'antd';
 import './search.scss'
 const { Option } = Select;
 
-const Search = () => {
+const Search = (props: any) => {
     const [form] = Form.useForm();
-    const [, forceupdate] = useState();
 
-    useEffect(() => forceupdate([]), []);
 
     const onFinish = (values: any) => {
         console.log('Finish:', values);
+        props.handleSearch(values)
 
     }
 
@@ -20,14 +19,14 @@ const Search = () => {
             <Form form={form} name="horizontal_search" layout='inline' onFinish={onFinish} className='user_search'>
 
                 <Form.Item
-                    name="searchId"
+                    name="userId"
                     label="用户ID"
                 // rules
                 >
                     <Input placeholder='输入用户ID' />
                 </Form.Item>
                 <Form.Item
-                    name="searchName"
+                    name="userName"
                     label="用户名"
                 // rules
                 >
@@ -38,7 +37,7 @@ const Search = () => {
                 <Form.Item shouldUpdate={true} className='search_btns'>
 
                     <Button type="primary" htmlType="submit" >搜 索 </Button>
-                    <Button>重置</Button>
+                    <Button onClick={() => form.resetFields()}>重置</Button>
                 </Form.Item>
             </Form>
         </div>

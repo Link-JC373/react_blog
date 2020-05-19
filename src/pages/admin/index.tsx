@@ -93,7 +93,7 @@ const Admin = (props: any) => {
                             arrComp.map((item) => {
                                 return <Menu.Item key={item.url}>
                                     {item.icon}
-                                    <Link to={item.url}>{item.name}</Link>
+                                    {!collapsed && <Link to={item.url}>{item.name}</Link>}
                                 </Menu.Item>
                             })
                         }

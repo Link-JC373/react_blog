@@ -13,18 +13,21 @@ interface IUserComment {
 const UserComment = (props: IUserComment) => {
     const { item } = props
     return (
-        <Link to={`/articleDetail/${item?.id}`} className="link_to">
+        <Link to={`/articleDetail/${item?.blog_article.id}`} className="link_to">
             <div className="al">
 
                 <div className="user-info-row">
                     <Popover content={<AuthorCard data={item.user} />} >
-                        <Avatar size={40} icon={<UserOutlined />} />
-                        <span className="user_name"> {item.user.username} </span>
+                        <span>
+                            <Avatar size={40} src={item.user.user_icon} />
+                            <span className="user_name"> {item.user.username} </span>
+                        </span>
+
                     </Popover >
-                             · <span> {item.title} </span> · <span> {item.blog_type.typename} </span>
+                             · <span> {item.blog_article.title} </span>
                 </div>
                 <div className="comment">
-                    {item.comment}
+                    {item.comment_content}
                 </div>
             </div>
         </Link>

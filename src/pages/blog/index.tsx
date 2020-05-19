@@ -1,57 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, BackTop, Menu, Affix, Row, Col } from 'antd';
-import { Parallax } from 'rc-scroll-anim';
 import BlogHeader from './components/header';
-import BlogContent from './components/content';
-import BlogSider from './components/sider';
-import Request from '../../utils/request';
-
-import { IArticleData } from './types';
+import './components/static/content.scss'
 import './index.scss'
-import LoginCon from 'container/HeaderCon';
+import InfiniteList from './components/infiniteList';
+import { Route } from 'react-router';
+import { Link } from 'react-router-dom';
+import BlogSider from './components/sider';
+
 
 
 const Blog = () => {
-    const [dataList, setDataList] = useState<Array<IArticleData>>([])
-    const [loading, setLoading] = useState<boolean>(true)
-    const [hasMore, setHasMore] = useState<boolean>(true)
-    const [pageNum, setPageNum] = useState<number>(1)
-    const [articleTypeId, setArticleTypeId] = useState<number>(0)
-    useEffect(() => {
-        getArticleList(pageNum)
-    }, [])
 
-    const getArticleList = async (pageNum: number, articleTypeId?: number, isAdd: boolean = true) => {
-        let req = new Request()
-        setLoading(true)
-        await req.post('/default/getArticleList', { pageNum, articleTypeId }).then((res) => {
-            console.log(res);
-            isAdd ? setDataList([...dataList, ...res?.data.rows]) : setDataList([...res?.data.rows])
-            setLoading(false)
-            setPageNum(pageNum + 1)
-            if (pageNum >= res?.data.total_pages) {
-                setHasMore(false)
+    const [articleTypeId, setArticleTypeId] = useState<string>((
+        function () {
+            if (window.location.pathname === '/blog') {
+                return '/blog/recommend'
             }
-        }).catch((err) => {
-            setLoading(false)
-            console.log(err);
-        })
-        console.log(dataList);
+            return window.location.pathname
+        }
+    )())
 
-    }
 
     const handleClick = (e: { key: React.SetStateAction<string>; }) => {
         console.log('click ', e);
 
-        setArticleTypeId(+e.key)
-        setPageNum(1)
-        getArticleList(1, +e.key, false)
+        setArticleTypeId(e.key)
 
     };
 
-    const onLoadMore = (page: number) => {
-        getArticleList(pageNum, articleTypeId)
-    }
+
 
     return (
         <div>
@@ -59,21 +37,25 @@ const Blog = () => {
             <Layout>
                 <Affix offsetTop={0}>
                     <div>
-                        {/* <BlogHeader /> */}
-                        <LoginCon />
+                        <BlogHeader />
+                        {/* <LoginCon /> */}
                         <div className="header_nav">
-                            <Menu onClick={handleClick} selectedKeys={[`${articleTypeId}`]} mode="horizontal">
-                                <Menu.Item key="0">
-                                    推荐
+                            <Menu onClick={handleClick} selectedKeys={[articleTypeId]} mode="horizontal">
+                                <Menu.Item key="/blog/recommend">
+                                    <Link to={'/blog/recommend'}>推荐</Link>
+
                                 </Menu.Item>
-                                <Menu.Item key="1">
-                                    游戏开发
+                                <Menu.Item key="/blog/development">
+                                    <Link to={'/blog/development'}>游戏开发</Link>
+
                                 </Menu.Item>
-                                <Menu.Item key="2">
-                                    游戏测评
-                                 </Menu.Item>
-                                <Menu.Item key="3">
-                                    游戏策划
+                                <Menu.Item key="/blog/devops">
+                                    <Link to={'/blog/devops'}>游戏运维</Link>
+
+                                </Menu.Item>
+                                <Menu.Item key="/blog/plan">
+                                    <Link to={'/blog/plan'}>游戏测评</Link>
+
                                 </Menu.Item>
                             </Menu>
 
@@ -83,9 +65,17 @@ const Blog = () => {
 
                 </Affix>
 
-
                 <Layout className="mainLayout">
-                    <BlogContent data={dataList} loading={loading} onLoadMore={onLoadMore} hasMore={hasMore} />
+                    <div className="content">
+                        <Route path="/blog" exact render={() => <InfiniteList url="/default/getArticleList" element="mainArticleList" />} />
+                        <Route path="/blog/recommend" render={() => <InfiniteList url="/default/getArticleList" element="mainArticleList" />} />
+                        <Route path="/blog/development" render={() => <InfiniteList url="/default/getArticleList" data={{ articleTypeId: 1 }} element="mainArticleList" />} />
+                        <Route path="/blog/devops" render={() => <InfiniteList url="/default/getArticleList" data={{ articleTypeId: 2 }} element="mainArticleList" />} />
+                        <Route path="/blog/plan" render={() => <InfiniteList url="/default/getArticleList" data={{ articleTypeId: 3 }} element="mainArticleList" />} />
+
+                    </div>
+                    {/* <BlogContent data={dataList} loading={loading} onLoadMore={onLoadMore} hasMore={hasMore} /> */}
+                    {/* <SiderCon /> */}
                     <BlogSider />
                 </Layout>
 

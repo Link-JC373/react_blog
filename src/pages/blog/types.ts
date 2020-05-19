@@ -6,28 +6,50 @@ export interface IArticleData{
     blog_type: {
         typename:string,
     },
-    likeCount ?: number,
-    messageCount ?:number,
+    likeCount?: number,
+    messageCount?: number,
+    article_content?: string,
+    isFav?: boolean,
+    isLike?: boolean,
 }
 
 export interface IUserData{
     username: string;
     disc: string;
     user_icon: string;
-    id:number
+    id: number;
+    article_count?: number;
 }
 
 export interface ICommentData{
     id:string,
-    title: string,
+    blog_article: IArticleData,
     user: IUserData,
-      blog_type: {
-        typename:string,
-    },
-    comment:string
+    comment_content:string
 }
 export interface IFav{
-    id:string,
-    favName: string,
-    count:string
+    fav_id:string,
+    fav_name: string,
+    articles_favorites:Array<any>
+}
+
+export interface ILogin {
+    userInfo?: ILoginInfo;
+    onLogin: (userInfo: ILoginInfo) => void;
+    onLogout: () => void;
+
+}
+
+export interface IComment{
+    comment_id: number;
+    comment_content: string;
+    createdAt: string;
+    user: IUserData;
+    comments_to_comments: Array<IComment>;
+}
+
+export interface ILoginInfo {
+    userId: number;
+    userIcon: string;
+    username: string;
 }

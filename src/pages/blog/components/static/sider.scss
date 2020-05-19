@@ -1,15 +1,60 @@
 .sider {
     margin-top: 20px;
     background-color: #f0f2f5;
+    // width: 240px !important;
+    max-width: 240px !important;
+    min-width: 240px !important;
 
     // width: 400px;
     .register {
-        width: 240px;
+        width: 100%;
         background-color: white;
         padding: 16px 16px 5px 16px;
+        margin-bottom: 20px;
 
         .register-title {
             text-align: center;
+        }
+
+    }
+
+    .sider-author-block {
+        background-color: white;
+        width: 100%;
+        min-height: 200px;
+
+        .sider-author-block-header {
+            padding: .8rem 1.1rem;
+            border-bottom: 1px solid hsla(0, 0%, 59.2%, .1);
+        }
+
+        .sider-author-block-content {
+            list-style: none;
+            padding-left: 0;
+
+            .user-info-list {
+                padding: .8rem 1rem;
+                display: flex;
+                align-items: center;
+
+                .user-info {
+                    margin-left: 1rem;
+
+                    .user-info-first {
+                        font-size: 1rem;
+                        color: #333;
+                        font-weight: 400;
+                    }
+                }
+
+
+            }
+
+            .user-info-list:hover {
+                cursor: pointer;
+                background-color: hsla(0, 0%, 59.2%, .1);
+                transition: .5s;
+            }
         }
 
     }

@@ -8,16 +8,18 @@ import Loadable from './pageLodable'
 // import Loadable from 'react-loadable';
 // import UserController from '../pages/admin/components/user/index';
 
-const Admin = Loadable(() => import('../pages/admin'))
-const AdminLogin = Loadable(() => import('../pages/admin/login'))
+
 const Blog = Loadable(() => import('../pages/blog'))
 const ArticleDetail = Loadable(() => import('../pages/blog/articleDetail'))
 const AuthorDetail = Loadable(() => import('../pages/blog/authorDetail'))
+const AddArticle = Loadable(() => import('../pages/blog/writeArticle'))
+const Favorites = Loadable(() => import('../pages/blog/favorites'))
 
 const SystemData = Loadable(() => import('../pages/admin/components/systemData'))
 const UserController = Loadable(() => import('../pages/admin/components/user/index'))
 const ArticleController = Loadable(() => import('../pages/admin/components/article'))
-
+const Admin = Loadable(() => import('../pages/admin'))
+const AdminLogin = Loadable(() => import('../pages/admin/login'))
 const router: RouteConfig[] = [
     {
         path: "/",
@@ -34,8 +36,23 @@ const router: RouteConfig[] = [
         component: ArticleDetail
     },
     {
+        path: '/addArticle',
+        component: AddArticle
+    },
+    {
+        path: '/favorites/:id',
+        component: Favorites
+    },
+    {
         path: "/authorDetail/:id",
-        component: AuthorDetail
+        component: AuthorDetail,
+        // render: () => <Redirect to='/authorDetail/:id/articleList' />,
+
+        // children: [
+        //     {
+        //         path: '/authorDetail/1/articleList'
+        //     }
+        // ]
     },
     {
         path: "/admin",

@@ -13,11 +13,11 @@ interface IFavorites {
 const Favorites = (props: IFavorites) => {
     const { item } = props
     return (
-        <Link to={`/articleDetail/${item?.id}`} className="link_to">
+        <Link to={`/favorites/${item?.fav_id}`} className="link_to">
             <div className="al">
                 <div className="fav-row">
 
-                    <span> {item?.favName} </span> · <span> {item?.count} 篇文章</span>
+                    <span> {item?.fav_name} </span> · <span> {item?.articles_favorites.length} 篇文章</span>
                 </div>
             </div>
         </Link>

@@ -44,7 +44,7 @@ const PieChart = (props) => {
         pie.interaction('element-active');
 
         pie.render();
-    })
+    }, [pieData])
 
 
     return (

@@ -1,129 +1,81 @@
 import React, { useState, useEffect } from 'react'
 import { Layout, Avatar, Tabs } from 'antd';
 import { UserOutlined, SolutionOutlined } from '@ant-design/icons';
-import { IArticleData, ICommentData, IFav } from '../types';
+import { IArticleData, ICommentData, IFav, IUserData } from '../types';
+import { Route, useParams, useHistory } from 'react-router-dom';
+
 import InfiniteList from '../components/infiniteList';
 import './authorContent.scss'
 import '../index.scss'
+import Request from '../../../utils/request';
+import loginCon from 'container/loginCon';
 
 const { Content } = Layout
 const { TabPane } = Tabs;
+
 const AuthorContent = () => {
-    const [dataList, setDataList] = useState<Array<IArticleData>>([
-    ])
-    const [loading, setLoading] = useState<boolean>(true)
-    const [commentDataList, setCommentDataList] = useState<Array<ICommentData>>([])
-    const [favDataList, setFavDataList] = useState<Array<IFav>>([])
-    const [commentLoading, setCommentLoading] = useState<boolean>(true)
-    const [favLoading, setFavLoading] = useState<boolean>(true)
-    const callback = (key: string) => {
-        console.log(key);
-    }
+
+    // const [userId, setUserId] = useState<string>()
+    const [userInfo, setUserInfo] = useState<IUserData>()
+    const [loginInfo, setLoginInfo] = useState<any>()
+    let { id } = useParams()
 
     useEffect(() => {
-        setTimeout(() => {
-            setCommentDataList([])
-            setCommentLoading(false)
-        }, 1000)
-    }, [])
-
-    useEffect(() => {
-        setTimeout(() => {
-            setDataList([])
-            setLoading(false)
-        }, 1000)
+        id && initContent(id)
+        setLoginInfo(JSON.parse('' + localStorage.getItem('userInfo')))
+        console.log(JSON.parse('' + localStorage.getItem('userInfo')));
 
     }, [])
 
-    useEffect(() => {
-        setTimeout(() => {
-            setFavDataList([
-                {
-                    id: '1',
-                    favName: 'Flutter',
-                    count: '10'
-                },
-                {
-                    id: '2',
-                    favName: 'WebPack',
-                    count: '10'
-                },
-                {
-                    id: '3',
-                    favName: 'JavaScript',
-                    count: '10'
-                },
-            ])
-            setFavLoading(false)
-        }, 1000)
-    }, [])
-
-    const onArticleLoadMore = (num: number) => {
-        console.log(num);
-
-        setLoading(true)
-        setTimeout(() => {
-            setDataList([...dataList])
-            setLoading(false)
+    const initContent = async (id: string | undefined) => {
+        // setUserId(id)
+        let req = new Request()
+        await req.get(`default/findUserById/${id}`).then((res) => {
+            setUserInfo(res?.data)
         })
     }
 
-
-    const onCommentLoadMore = (num: number) => {
-        setCommentLoading(true)
-
-        setTimeout(() => {
-            setCommentDataList([...commentDataList])
-            setCommentLoading(false)
-        }, 1000)
+    let history = useHistory()
+    const callback = (key: string) => {
+        history.push(`/authorDetail/${id}/` + `${key}`)
+        // console.log(key);
     }
 
-    const onFavLoadMore = (num: number) => {
-        setFavLoading(true)
 
-        setTimeout(() => {
-            setFavDataList([...favDataList, {
-                id: '3',
-                favName: 'JavaScript',
-                count: '10'
-            },])
-            setFavLoading(false)
-        }, 1000)
-    }
 
     return (
         <div className="authorContent ">
             <Content >
                 <div className="user-info-block">
-                    <Avatar size={100} icon={<UserOutlined />} className="user-avator" />
+                    {/* {id} */}
+                    <Avatar size={100} src={userInfo?.user_icon} className="user-avator" />
                     <div className="info-box">
                         <div className="top">
-                            <h1>UserName</h1>
+                            <h1>{userInfo?.username}</h1>
                         </div>
                         <div className="bottom">
-                            <SolutionOutlined />Disc
+                            <SolutionOutlined /> {userInfo?.disc}
                         </div>
 
                     </div>
                     <div className="action-box">
                         <button className="follow-btn">
-                            关注
-                            </button>
+                            {loginInfo?.userId === userInfo?.id ? '修改个人信息' : '关注'}
+                        </button>
                     </div>
                 </div>
                 <div className="list-block">
-                    <Tabs defaultActiveKey="1" onChange={callback}>
-                        <TabPane tab="文章" key="1">
-                            <InfiniteList data={dataList} loading={loading} onLoadMore={onArticleLoadMore} element='articleList' />
-                            {/* <ArticleList />
-                            </InfiniteList> */}
-                        </TabPane>
-                        <TabPane tab="评论" key="2">
-                            <InfiniteList data={commentDataList} loading={commentLoading} onLoadMore={onCommentLoadMore} element='commentList' />
+                    <Tabs defaultActiveKey="articleList" onChange={callback}>
+                        <TabPane tab="文章" key="articleList">
+
+                            <Route path={`/authorDetail/${id}/articleList`} render={() => <InfiniteList url='/default/getArticleList' data={{ userId: id }} element='articleList' />} />
 
                         </TabPane>
-                        <TabPane tab="收藏夹" key="3">
-                            <InfiniteList data={favDataList} loading={favLoading} onLoadMore={onFavLoadMore} element='favList' />
+                        <TabPane tab="评论" key="comments">
+                            <Route path={`/authorDetail/${id}/comments`} render={() => <InfiniteList url="/default/getUserComments" data={{ userId: id }} element='commentList' />} />
+                        </TabPane>
+                        <TabPane tab="收藏夹" key="fav">
+                            <Route path={`/authorDetail/${id}/fav`} render={() => <InfiniteList url="/default/getFavorites" data={{ userId: id }} element='favList' />} />
                         </TabPane>
                     </Tabs>,
                 </div>
@@ -133,4 +85,4 @@ const AuthorContent = () => {
     )
 }
 
-export default AuthorContent
+export default loginCon(AuthorContent)

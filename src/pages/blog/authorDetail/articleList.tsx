@@ -18,8 +18,10 @@ const ArticleList = (props: IArticleList) => {
 
                 <div className="user-info-row">
                     <Popover content={<AuthorCard data={item.user} />} >
-                        <Avatar size={40} icon={<UserOutlined />} />
-                        <span className="user_name"> {item.user.username} </span>
+                        <span>
+                            <Avatar size={40} src={item.user.user_icon} />
+                            <span className="user_name"> {item.user.username} </span>
+                        </span>
                     </Popover >
                              · <span> {item.blog_type.typename} </span>
                 </div>

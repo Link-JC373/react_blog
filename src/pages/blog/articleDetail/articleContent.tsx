@@ -8,22 +8,25 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/monokai-sublime.css';
 import '../components/static/content.scss'
 import './articleContent.scss'
+import { IArticleData } from '../types';
+
 
 const { Content } = Layout
 
-const ArticleContent = (props: any) => {
-    useEffect(() => {
+interface IAC {
+    data: IArticleData,
+}
 
-    })
+const ArticleContent = (props: IAC) => {
 
     return (
         <div>
             <Content className="content articleContent-shell">
 
                 <div className="author_info_block">
-                    <Avatar size="large" icon={<UserOutlined />} />
+                    <Avatar size="large" src={props.data.user?.user_icon} />
                     <div className="author_info_box">
-                        <a className="user_name">username</a>
+                        <a className="user_name">{props.data.user?.username}</a>
                         <div>
                             <time>time</time>
                         </div>
@@ -36,7 +39,7 @@ const ArticleContent = (props: any) => {
                         className="article-detail"
                     >
                         <ReactMarkdown
-                            source={props.content}
+                            source={props.data.article_content}
                             escapeHtml={false}
                         />
                     </div>

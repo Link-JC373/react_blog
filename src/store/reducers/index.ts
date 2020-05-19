@@ -1,6 +1,7 @@
 import { ModifyAction } from '../actions';
 import { DECREMENT, INCREMENT, LOGOUT, LOGIN } from '../actionTypes';
 import { combineReducers } from 'redux'
+import { ILoginInfo } from '../../pages/blog/types';
 
 // 处理并返回 state 
 let count = (state = 0, action: ModifyAction): number => {
@@ -14,12 +15,22 @@ let count = (state = 0, action: ModifyAction): number => {
     }
 }
 
-let isLogin = (state = false, action: ModifyAction): boolean => {
+let isLogin = (
+  state = {
+        userId: 0,
+        userIcon: '',
+        username : ''
+}
+  , action: ModifyAction): ILoginInfo => {
   switch (action.type) {
     case LOGIN:
-      return true;
+      return action.userInfo;
     case LOGOUT:
-      return false;
+      return {
+        userId: 0,
+        userIcon: '',
+        username : ''
+      };
     default:
       return state
   }

@@ -12,30 +12,22 @@ import LoginForm from './loginForm'
 import RegisterForm from './registerForm';
 import Request from '../../../utils/request';
 import { useHistory } from 'react-router-dom';
+import { ILogin, ILoginInfo } from '../types';
+import loginCon from 'container/loginCon';
 const { Search } = Input
 const { Header } = Layout
 
-interface ILoginInfo {
-    userId: number;
-    userIcon: string;
-    token: string;
-}
 
-interface IBlogHeader {
-    isLogin?: boolean;
-    onLogin?: () => void;
-    onLogout?: () => void;
 
-}
 
-const BlogHeader = (props: IBlogHeader) => {
+const BlogHeader = (props: ILogin) => {
     const [registerVisible, setRegsiterVisible] = useState<boolean>(false)
     const [loginVisible, setLoginVisible] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(true);
-    const [userInfo, setUserInfo] = useState<ILoginInfo>();
+    // const [userInfo, setUserInfo] = useState<ILoginInfo>();
     // const [pageYOffset, setPageYOffSet] = useState(window.pageYOffset)
     const headerRef = useRef<HTMLDivElement>(null)
-    const { isLogin, onLogin, onLogout } = props
+    const { userInfo, onLogin, onLogout } = props
     useEffect(() => {
         document.addEventListener('scroll', () => {
             onScroll()
@@ -49,8 +41,8 @@ const BlogHeader = (props: IBlogHeader) => {
         console.log(props);
 
         if (info) {
-            onLogin && onLogin()
-            setUserInfo(JSON.parse(info))
+            onLogin && onLogin(JSON.parse(info))
+            // setUserInfo(JSON.parse(info))
         }
     }, [])
 
@@ -67,41 +59,36 @@ const BlogHeader = (props: IBlogHeader) => {
         pageYOffset = window.pageYOffset
     }
 
-    const loginFinish = async (values: object) => {
+    const loginFinish = async (values: any) => {
         console.log(values);
-        let req = new Request();
-        await req.post('/user/checkLogin', { ...values }).then((res: any) => {
-            console.log(res);
-            switch (res?.status) {
-                case 403:
-                    message.error(res?.message)
-                    break;
-                case 200:
-                    setUserInfo(res?.data)
-                    onLogin && onLogin()
-                    localStorage.setItem('userInfo', JSON.stringify(res?.data))
-                    setLoginVisible(false)
-                default:
-                    break;
-            }
-        })
+        setLoginVisible(values.visible);
+        props.onLogin(values.data);
     }
     let history = useHistory();
 
     const onGoTo = (url: string) => {
+        console.log(url);
+
         history.push(url)
+    }
+
+    const logout = () => {
+        onLogout && onLogout()
+        window.localStorage.removeItem('userInfo')
+        window.location.reload()
+
     }
 
     const menu = (
         <Menu className="header_drow_menu">
             <Menu.Item key="0">
-                <a href="http://www.alipay.com/"><EditOutlined /> 写文章</a>
+                <a onClick={() => onGoTo('/addArticle')} ><EditOutlined /> 写文章</a>
             </Menu.Item>
             <Menu.Item key="1">
-                <a onClick={() => onGoTo(`/authorDetail/${userInfo?.userId}`)}><UserOutlined /> 个人中心</a>
+                <a onClick={() => onGoTo(`/authorDetail/${userInfo?.userId}/articleList`)}><UserOutlined /> 个人中心</a>
             </Menu.Item>
             <Menu.Divider />
-            <Menu.Item key="3"><ExportOutlined /> 退出</Menu.Item>
+            <Menu.Item key="3" onClick={logout}><ExportOutlined /> 退出</Menu.Item>
         </Menu>
     );
 
@@ -135,7 +122,7 @@ const BlogHeader = (props: IBlogHeader) => {
                     <Header key='1'>
                         <div className="header-title">
                             <div>
-                                <span className="header-logo">PlayMate </span>
+                                <a className="header-logo" onClick={() => onGoTo('/blog')}>PlayMate </a>
                                 <span className="header-text"> Meet! And play with your playmate</span>
 
                             </div>
@@ -147,9 +134,9 @@ const BlogHeader = (props: IBlogHeader) => {
                                     style={{ width: 200 }}
                                 />
                                 {
-                                    isLogin ?
+                                    props.userInfo?.userId !== 0 ?
                                         <>
-                                            <Button className='addArticle_btn' type="primary">写文章</Button>
+                                            <Button className='addArticle_btn' type="primary" onClick={() => onGoTo('/addArticle')} > 写文章</Button>
                                             <Dropdown overlay={menu} trigger={['click']}>
                                                 <Avatar src={userInfo?.userIcon} />
                                             </Dropdown>,
@@ -172,6 +159,7 @@ const BlogHeader = (props: IBlogHeader) => {
                     visible={loginVisible}
                     footer={null}
                     onCancel={loginCancel}
+                    destroyOnClose
                 >
                     <LoginForm loginFinish={loginFinish} />
                 </Modal>
@@ -180,6 +168,7 @@ const BlogHeader = (props: IBlogHeader) => {
                     visible={registerVisible}
                     footer={null}
                     onCancel={registerCancel}
+                    destroyOnClose
                 >
                     <RegisterForm />
                 </Modal>
@@ -195,5 +184,5 @@ const BlogHeader = (props: IBlogHeader) => {
     );
 }
 
-export default BlogHeader
+export default loginCon(BlogHeader)
 

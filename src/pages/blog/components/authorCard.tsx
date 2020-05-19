@@ -12,8 +12,8 @@ interface IAuthorCard {
 
 const AuthorCard = (props: IAuthorCard) => {
     return (
-        <div>
-            <div >
+        <div className="author-box">
+            <div>
                 <Link to={`/authorDetail/1`} className="author_card">
                     <Avatar size={64} src={props.data.user_icon} />
                     <div className="author_info">
@@ -23,24 +23,24 @@ const AuthorCard = (props: IAuthorCard) => {
                     </div>
                 </Link>
 
+                <div className="meta-row">
 
-            </div>
-            <div className="meta-row">
+                    <div>
+                        <div className="count">123</div>
+                        <div className="title">关注</div>
+                    </div>
+                    <div>
+                        <div className="count">123</div>
+                        <div className="title">关注者</div>
+                    </div>
+                    <div className="follow_btn">
+                        <Button size='large'>关注</Button>
+                    </div>
 
-                <div>
-                    <div className="count">123</div>
-                    <div className="title">关注</div>
                 </div>
-                <div>
-                    <div className="count">123</div>
-                    <div className="title">关注者</div>
-                </div>
-                <div className="follow_btn">
-                    <Button size='large'>关注</Button>
-                </div>
-
             </div>
         </div>
+
 
     );
 }
