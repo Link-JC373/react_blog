@@ -29,7 +29,7 @@
     "highlight.js": "^9.18.1",
     "markdown-navbar": "^1.4.0",
     "marked": "^0.8.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "rc-queue-anim": "^1.8.4",
     "rc-scroll-anim": "^2.7.4",
     "rc-tween-one": "^2.6.8",
